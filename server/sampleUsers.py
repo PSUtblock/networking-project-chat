@@ -15,6 +15,7 @@ def hash_password(password):
 
     return salt.hex(), hashed_password
 
+
 # users will be stored in something that can hold the username, saltvalue, and hashed password
 users = {
     "user1": hash_password("password123"),
@@ -23,6 +24,9 @@ users = {
 
 # user sessions will be stored when client applications establish test connections. these
 # sessions will then be used to confirm future requests from the client.
-user_sessions = {
 
+
+user_sessions = {
+    "user1": "q8p43qur3vn8aru08q3uan0v98rupio3uar0aaf3e",
+    "user2": "pauj0r9fu3jqf02j4gja03049949444jpoafjap03"
 }

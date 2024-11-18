@@ -19,6 +19,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import os
 import base64
+import globals
 
 
 # Function to create a login window. This is done from clientApp.py
@@ -61,9 +62,9 @@ the client and server until a user logs out. **see handle_returned_login functio
 """
 
 
-def login(on_submit, value, window):
+def login(on_submit, server_name, window):
     # Pass the input value back to the main program
-    on_submit(value)
+    on_submit(server_name)
     # Close the window after submitting
     window.hide()
 
@@ -116,6 +117,12 @@ def test_login(test_button, login_button, server_name, server_user, server_passw
                 test_button.disable()
                 login_button.visible = True
                 login_button.enable()
+                globals.session_id = parts[2]
+                globals.client_listen.address = server_name.value
+                globals.client_listen.port = 65432
+                globals.client_messenger.address = server_name.value
+                globals.client_messenger.port = 65432
+                globals.client_username = server_user.value
 
             # If a failure of credentials, test remains
             else:
