@@ -34,6 +34,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
                 login_test(conn, parts)
 
             else:
-                conn.sendall("ERROR|Invalid request format.".encode())
+                conn.send("ERROR|Invalid request format.".encode())
 
         print("Connection with", addr, "closed.")
