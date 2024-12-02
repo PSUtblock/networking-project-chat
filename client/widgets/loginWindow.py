@@ -35,8 +35,13 @@ class LoginWindow:
 
         self.container.visible = False
 
-    def open(self):
-        self.container.visible = True
+    def open(self, menu):
+        self.status_text.value = ""
+        self.login_button.image = "images/test.png"
+        self.login_button.width = 90
+        self.login_button.height = 30
+        self.login_button.update_command(self.test_login, args=[menu])
+        self.container.show()
 
     def connect(self, menu):
         self.login_button.update_command(self.container.hide)
@@ -46,7 +51,9 @@ class LoginWindow:
         menu.loginButton.update_command(menu.logout)
         menu.connected.set_volume(.1)
         menu.connected.play()
-        globals.client_listen.start()
+        ## globals.client_listen.start()
+        globals.client_messenger.run()
+        self.container.visible = False
 
     def test_login(self, menu):
         if self.server_name.value and self.server_user.value and self.server_password.value:

@@ -2,12 +2,12 @@
 """
 Launch this file to start the chat application.
 """
-
+from cryptography.fernet import Fernet
 # Import Libraries
 from guizero import App, Text, Box, TextBox, Picture, PushButton, TitleBox
 
 from client.clientListener import ClientSocketListener
-from client.clientMessenger import ClientMessenger
+from client.clientListenerFunctions import ClientMessenger
 from client.widgets.chatMessage import ChatMessage
 from client.widgets.topMenuBar import TopMenuBar
 from login import open_login
@@ -22,8 +22,8 @@ connected = pygame.mixer.Sound("sounds/connected.wav")
 # Client memory
 globals.client_username = "Empty"
 globals.session_id = None
-globals.client_listen = ClientSocketListener(None, None)
-globals.client_messenger = ClientMessenger(None, None)
+globals.client_listen = ClientSocketListener("0.0.0.0", "12345")
+globals.client_messenger = ClientMessenger("0.0.0.0", "12345", Fernet.generate_key())
 
 
 # Application UI Initialization
@@ -72,3 +72,4 @@ message1 = ChatMessage(contentBox, "nothing", "nothing")
 
 # Displays the Application UI
 app.display()
+app.focus()

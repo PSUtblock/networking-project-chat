@@ -17,23 +17,29 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
 
     # Listening Loop
     while True:
-        # connection information from client
+        # Accept connection from client
         conn, addr = server_socket.accept()
-        with conn:
-            print(f"Connected by {addr}")
+        print(f"Connected by {addr}")
 
-            # data is populated with information from the client
-            data = conn.recv(1024).decode()
-            if not data:
-                break
+        try:
+            while True:  # Keep listening for messages from this connection
+                # Receive data from client
+                data = conn.recv(1024).decode()
+                if not data:
+                    print(f"No data received. Closing connection with {addr}.")
+                    break
 
-            # THIS WILL NEED TO BE MODULARIZED - make py files in the server/responses directory
-            # Parse the custom protocol format
-            parts = data.split("|")
-            if len(parts) == 5 and parts[0] == "LOGIN_TEST":
-                login_test(conn, parts)
+                # Parse the custom protocol format
+                parts = data.split("|")
+                if len(parts) == 5 and parts[0] == "LOGIN_TEST":
+                    login_test(conn, parts)
+                else:
+                    print(f"Error with Received Message: {data}")
+                    conn.send("ERROR|Invalid request format.".encode())
+        except Exception as e:
+            print(f"Error with connection {addr}: {e}")
+        finally:
+            # Close connection when the client disconnects or an error occurs
+            conn.close()
+            print(f"Connection with {addr} closed.")
 
-            else:
-                conn.send("ERROR|Invalid request format.".encode())
-
-        print("Connection with", addr, "closed.")

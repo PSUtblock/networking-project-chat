@@ -5,10 +5,7 @@ it is doing. In this file a UI element is being made to collect server informati
 That data then is used to establish a test connection to the server. This test message is encrypted
 and decrypted on the server, with the server's response being a sessionID for the client application
 to use to perform future requests until a user quits the client application.
-
-Known Issues:
-- Currently it is possible for a user to open the login window twice, which would likely cause issue.
-However, testing can still be performed so long as you avoid this."""
+"""
 
 # Library Imports
 import socket

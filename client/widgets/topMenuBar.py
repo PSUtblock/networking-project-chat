@@ -3,6 +3,7 @@ import pygame
 from guizero import Box, Text, PushButton, Picture
 
 from client.widgets.loginWindow import LoginWindow
+import globals
 
 
 class TopMenuBar:
@@ -28,7 +29,7 @@ class TopMenuBar:
         self.connected = pygame.mixer.Sound("sounds/connected.wav")
 
         self.loginMenu = LoginWindow(parent, self)
-        self.loginButton.update_command(self.loginMenu.open)
+        self.loginButton.update_command(self.loginMenu.open, args=[self])
 
     def destroy(self):
         """Destroy the widget (removes it from the UI)."""
@@ -39,7 +40,7 @@ class TopMenuBar:
         self.loginButton.image = "images/login.png"
         self.loginButton.width = 80
         self.loginButton.tk.config(borderwidth=0, highlightthickness=0)
-        self.loginButton.update_command(self.loginMenu.open)
+        self.loginButton.update_command(self.loginMenu.open, args=[self])
         self.server_info.value = "Not Connected to a Server."
         self.disconnected.set_volume(.1)
         self.disconnected.play()
