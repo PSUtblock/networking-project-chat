@@ -3,6 +3,8 @@
 
 # import libraries
 import socket
+
+from server.responses.chat import chat_messaging
 from server.responses.logging import login_test
 
 # TCP server information
@@ -33,6 +35,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
                 parts = data.split("|")
                 if len(parts) == 5 and parts[0] == "LOGIN_TEST":
                     login_test(conn, parts)
+                elif len(parts) == 4 and parts[0] == "CHANNEL_MESSAGE":
+                    chat_messaging(conn, parts)
                 else:
                     print(f"Error with Received Message: {data}")
                     conn.send("ERROR|Invalid request format.".encode())
