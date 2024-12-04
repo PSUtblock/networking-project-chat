@@ -12,6 +12,7 @@ from client.widgets.bottomMenuBar import BottomMenuBar
 from client.widgets.chatMessage import ChatMessage
 from client.widgets.topMenuBar import TopMenuBar
 from login import open_login
+from client.clientMessengerFunctions import MessengerFunctions
 import pygame as pygame
 import globals
 
@@ -20,10 +21,11 @@ pygame.mixer.init()
 connected = pygame.mixer.Sound("sounds/connected.wav")
 
 # Client memory
+globals.channel = "General"
 globals.client_username = "Empty"
 globals.session_id = None
 globals.client_listen = ClientSocketListener("0.0.0.0", "12345")
-globals.client_messenger = ClientMessenger("0.0.0.0", "12345", Fernet.generate_key())
+globals.client_messenger = MessengerFunctions("0.0.0.0", "12345", Fernet.generate_key())
 
 # Application UI Initialization
 app = App(width=700, height=600, bg="#40466F")

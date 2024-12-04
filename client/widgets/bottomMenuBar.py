@@ -13,7 +13,7 @@ class BottomMenuBar:
             if self.textInput.value != "":
                 print(self.textInput.value)
                 Text(chatcontent, text=self.textInput.value)
-                self.textInput.value = ""
+                messenger.send_message(self.textInput.value)
 
         self.container = Box(parent)
         self.container.width = "fill"

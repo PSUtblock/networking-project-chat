@@ -35,7 +35,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
                 parts = data.split("|")
                 if len(parts) == 5 and parts[0] == "LOGIN_TEST":
                     login_test(conn, parts)
-                elif len(parts) == 4 and parts[0] == "CHANNEL_MESSAGE":
+                elif len(parts) == 5 and parts[0] == "CHAT_MESSAGE":
                     chat_messaging(conn, parts)
                 else:
                     print(f"Error with Received Message: {data}")
