@@ -7,5 +7,3 @@ def chat_messaging(conn, parts):
     channel = parts[3]
     timestamp = parts[4]
 
-    if os.path.exists():
-        os.open()

@@ -4,14 +4,11 @@ Launch this file to start the chat application.
 """
 from cryptography.fernet import Fernet
 # Import Libraries
-from guizero import App, Text, Box, TextBox, Picture, PushButton, TitleBox
+from guizero import App, Box, TitleBox
 
-from client.clientListener import ClientSocketListener
-from client.clientListenerFunctions import ClientMessenger
 from client.widgets.bottomMenuBar import BottomMenuBar
 from client.widgets.chatMessage import ChatMessage
 from client.widgets.topMenuBar import TopMenuBar
-from login import open_login
 from client.clientMessengerFunctions import MessengerFunctions
 import pygame as pygame
 import globals
@@ -57,7 +54,7 @@ Box(groupsMenu, align="top", height=10, width="fill")
 # May need to add a nested widget to handle scrolling
 contentBox = Box(app, align="top", width="fill", height="fill", border=False)
 contentBox.bg = 'dimgrey'
-message1 = ChatMessage(contentBox, "nothing", "nothing")
+message1 = ChatMessage(contentBox, "Travis", "hello!", "12-04-2024")
 
 # Bottom Text Bar (Empty Box, ChatBox, Send Button) Bottom menu of UI
 BottomMenuBar(app, globals.client_messenger, contentBox)

@@ -8,6 +8,8 @@ import base64
 import socket
 import globals
 
+from client.encryption import encrypt_password
+
 
 class LoginWindow:
     def __init__(self, parent, menu):
@@ -49,6 +51,7 @@ class LoginWindow:
         menu.loginButton.width = 80
         menu.loginButton.tk.config(borderwidth=0, highlightthickness=0)
         menu.loginButton.update_command(menu.logout)
+        menu.server_info.text = self.server_name.value
         menu.connected.set_volume(.1)
         menu.connected.play()
         ## globals.client_listen.start()
@@ -124,30 +127,3 @@ class LoginWindow:
         else:
             self.status_text.text_color = "red"
             self.status_text.value = "Please enter all fields!"
-
-
-# encrypt_password function to encrypt the data while it is being transferred
-def encrypt_password(password: str, key: str) -> dict:
-    nonce = os.urandom(16)
-
-    kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=nonce,
-        iterations=100000,
-        backend=default_backend()
-    )
-    encryption_key = kdf.derive(key.encode())
-
-    cipher = Cipher(algorithms.AES(encryption_key), modes.GCM(nonce), backend=default_backend())
-    encryptor = cipher.encryptor()
-
-    encrypted_password = encryptor.update(password.encode()) + encryptor.finalize()
-
-    tag = encryptor.tag
-
-    return {
-        'encrypted_password': base64.b64encode(encrypted_password).decode(),
-        'nonce': base64.b64encode(nonce).decode(),
-        'tag': base64.b64encode(tag).decode()
-    }

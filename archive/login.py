@@ -18,6 +18,8 @@ import os
 import base64
 import globals
 
+from client.encryption import encrypt_password
+
 
 # Function to create a login window. This is done from clientApp.py
 # when the user clicks the 'login' button in the top UI menu.
@@ -143,30 +145,3 @@ def test_login(test_button, login_button, server_name, server_user, server_passw
         login_button.visible = False
         status_text.text_color = "red"
         status_text.value = "Please enter all fields!"
-
-
-# encrypt_password function to encrypt the data while it is being transferred
-def encrypt_password(password: str, key: str) -> dict:
-    nonce = os.urandom(16)
-
-    kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=nonce,
-        iterations=100000,
-        backend=default_backend()
-    )
-    encryption_key = kdf.derive(key.encode())
-
-    cipher = Cipher(algorithms.AES(encryption_key), modes.GCM(nonce), backend=default_backend())
-    encryptor = cipher.encryptor()
-
-    encrypted_password = encryptor.update(password.encode()) + encryptor.finalize()
-
-    tag = encryptor.tag
-
-    return {
-        'encrypted_password': base64.b64encode(encrypted_password).decode(),
-        'nonce': base64.b64encode(nonce).decode(),
-        'tag': base64.b64encode(tag).decode()
-    }

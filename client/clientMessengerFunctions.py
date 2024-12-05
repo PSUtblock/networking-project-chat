@@ -6,6 +6,8 @@ from typing import Optional, Dict, List
 import globals
 import datetime
 
+from client.encryption import encrypt_message
+
 
 class MessengerFunctions:
     def __init__(self, address: str, port: int, encryption_key: bytes):
@@ -108,6 +110,7 @@ class MessengerFunctions:
                 raise Exception("No active connection")
 
             # Convert message to string and send
+            en_message = encrypt_message(globals.session_id,message_data,datetime.datetime.now(),)
             message = f"CHAT_MESSAGE|{globals.session_id}|{message_data}|{current_channel}{datetime.datetime.now().isoformat()}"
             self.socket.sendall(message.encode('utf-8'))
 
