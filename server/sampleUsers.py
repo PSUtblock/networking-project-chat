@@ -5,6 +5,7 @@
 import hashlib
 import os
 import secrets
+import app_database as database
 
 
 # hash_password function hashes the password of a new user on registration with a random salt.
@@ -21,6 +22,8 @@ users = {
     "user1": hash_password("password123"),
     "user2": hash_password("securepassword")
 }
+database.add_user("user1", users["user1"])
+database.add_user("user2", users["user2"])
 
 # user sessions will be stored when client applications establish test connections. these
 # sessions will then be used to confirm future requests from the client.
