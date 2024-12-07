@@ -99,8 +99,7 @@ class LoginWindow:
                     self.login_button.width = 90
                     self.login_button.update_command(self.connect, [menu])
                     globals.session_id = parts[2]
-                    globals.client_listen.address = self.server_name.value
-                    globals.client_listen.port = 65432
+                    globals.client_username = self.server_user
                     globals.client_messenger.address = self.server_name.value
                     globals.client_messenger.port = 65432
                     globals.client_username = self.server_user.value

@@ -21,7 +21,6 @@ connected = pygame.mixer.Sound("sounds/connected.wav")
 globals.channel = "General"
 globals.client_username = "Empty"
 globals.session_id = None
-globals.client_listen = ClientSocketListener("0.0.0.0", "12345")
 globals.client_messenger = MessengerFunctions("0.0.0.0", "12345", Fernet.generate_key())
 
 # Application UI Initialization

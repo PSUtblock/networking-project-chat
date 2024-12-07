@@ -1,7 +1,10 @@
 # MenuBar (Logo, ServerInfo, Login/Logout) Top menu of UI
+import datetime
+
 import pygame
 from guizero import Box, Text, PushButton, Picture, TextBox, event
 
+from client.widgets.chatMessage import ChatMessage
 from client.widgets.loginWindow import LoginWindow
 import globals
 
@@ -12,8 +15,9 @@ class BottomMenuBar:
         def handle_submit_button():
             if self.textInput.value != "":
                 print(self.textInput.value)
-                Text(chatcontent, text=self.textInput.value)
-                messenger.send_message(self.textInput.value)
+
+                globals.client_messenger.send_message(f"{globals.client_username}|{self.textInput.value}|{datetime.datetime.now().isoformat()}")
+                self.textInput.value = ""
 
         self.container = Box(parent)
         self.container.width = "fill"
