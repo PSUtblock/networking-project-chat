@@ -44,4 +44,4 @@ class TopMenuBar:
         self.server_info.value = "Not Connected to a Server."
         self.disconnected.set_volume(.1)
         self.disconnected.play()
-        globals.client_listen.stop()
+        globals.client_messenger.stop()
