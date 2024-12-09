@@ -3,6 +3,8 @@ import threading
 from queue import Queue
 from typing import Optional, Dict, List
 
+from client.messageHandler import message_handler
+
 
 class MessengerFunctions:
     def __init__(self, address: str, port: int, encryption_key: bytes):
@@ -64,6 +66,7 @@ class MessengerFunctions:
                         if data:
                             print(f"Message from server: {data}")
                             self.message_queue.put(data)
+                            message_handler(data)
                         else:
                             print("Server closed the connection.")
                             self.stop()

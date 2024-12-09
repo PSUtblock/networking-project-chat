@@ -51,12 +51,12 @@ Box(groupsMenu, align="top", height=10, width="fill")
 
 # contentBox is the main UI window. Chat messages will go within this UI section
 # May need to add a nested widget to handle scrolling
-contentBox = Box(app, align="top", width="fill", height="fill", border=False)
-contentBox.bg = 'dimgrey'
-message1 = ChatMessage(contentBox, "Travis", "hello!", "12-04-2024")
+# Simplifying work by making this global. mainly for the listener to quickly add messages to it
+globals.contentBox = Box(app, align="top", width="fill", height="fill", border=False)
+globals.contentBox.bg = 'dimgrey'
 
 # Bottom Text Bar (Empty Box, ChatBox, Send Button) Bottom menu of UI
-BottomMenuBar(app, globals.client_messenger, contentBox)
+BottomMenuBar(app, globals.client_messenger, globals.contentBox)
 
 # Displays the Application UI
 app.display()

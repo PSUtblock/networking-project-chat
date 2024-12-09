@@ -7,15 +7,14 @@ import threading
 
 from server.responses.chat import chat_messaging
 from server.responses.logging import login_test
-from server.responses.session import send_client_list
 
-# TCP server information
+# Server Info
 HOST = '127.0.0.1'  # Localhost for testing
 PORT = 65432  # Arbitrary non-privileged port
 
-# Set to store connected clients
+# A set to store clients
 clients = set()
-clients_lock = threading.Lock()  # Ensure thread safety when modifying `clients`
+clients_lock = threading.Lock()
 
 
 def broadcast_message(sender_conn, message):
@@ -64,8 +63,6 @@ def handle_client(conn, addr):
                 # Broadcast chat message to other clients
                 broadcast_message(conn, data)
 
-            elif len(parts) == 1 and parts[0] == "CLIENT_LIST"
-                send_client_list(conn)
             else:
                 print(f"Error with Received Message: {data}")
                 conn.send("ERROR|Invalid request format.".encode())
@@ -76,6 +73,7 @@ def handle_client(conn, addr):
             clients.remove(conn)
         conn.close()
         print(f"Connection with {addr} closed.")
+
 
 # Open socket on the server
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
