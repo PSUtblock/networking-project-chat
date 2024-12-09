@@ -19,6 +19,8 @@ class ClientSocketListener:
         try:
             # Create the socket and connect to the server
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            print(self.address)
+            print(self.port)
             self.socket.connect((self.address, self.port))
             print(f"Connected to server at {self.address}:{self.port}")
 

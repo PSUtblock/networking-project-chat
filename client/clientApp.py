@@ -2,15 +2,14 @@
 """
 Launch this file to start the chat application.
 """
-
+from cryptography.fernet import Fernet
 # Import Libraries
-from guizero import App, Text, Box, TextBox, Picture, PushButton, TitleBox
+from guizero import App, Box, TitleBox
 
-from client.clientListener import ClientSocketListener
-from client.clientMessenger import ClientMessenger
+from client.widgets.bottomMenuBar import BottomMenuBar
 from client.widgets.chatMessage import ChatMessage
 from client.widgets.topMenuBar import TopMenuBar
-from login import open_login
+from client.clientMessengerFunctions import MessengerFunctions
 import pygame as pygame
 import globals
 
@@ -18,13 +17,11 @@ import globals
 pygame.mixer.init()
 connected = pygame.mixer.Sound("sounds/connected.wav")
 
-
 # Client memory
+globals.channel = "General"
 globals.client_username = "Empty"
 globals.session_id = None
-globals.client_listen = ClientSocketListener(None, None)
-globals.client_messenger = ClientMessenger(None, None)
-
+globals.client_messenger = MessengerFunctions("0.0.0.0", "12345", Fernet.generate_key())
 
 # Application UI Initialization
 app = App(width=700, height=600, bg="#40466F")
@@ -32,18 +29,6 @@ app.tk.minsize(600, 500)
 
 # Class widget that generates the Top Menu UI
 TopMenuBar(app)
-
-# Bottom Text Bar (Empty Box, ChatBox, Send Button) Bottom menu of UI
-bottom_box = Box(app, width="fill", align="bottom", border=False, height=50)
-bottom_box.bg = "#40466F"
-Box(bottom_box, align='left', width=200, height=40)
-chatBox = Box(bottom_box, align="bottom", width="fill", height=30)
-chatBox.bg = "#40466F"
-textInput = TextBox(chatBox, align="left", width="fill", height="fill")
-textInput.bg = "dimgrey"
-textInput.text_color = "#BCDAE6"
-textInput.tk.config(highlightthickness=0, relief="groove")
-sendText = PushButton(chatBox, align="right", width=70, image="images/send.png")
 
 # Channel and User Group  (channelBox, userBox) Left Column of UI
 groupsMenu = Box(app, height="fill", align="left", border=False, width=200)
@@ -66,9 +51,13 @@ Box(groupsMenu, align="top", height=10, width="fill")
 
 # contentBox is the main UI window. Chat messages will go within this UI section
 # May need to add a nested widget to handle scrolling
-contentBox = Box(app, align="top", width="fill", height="fill", border=False)
-contentBox.bg = 'dimgrey'
-message1 = ChatMessage(contentBox, "nothing", "nothing")
+# Simplifying work by making this global. mainly for the listener to quickly add messages to it
+globals.contentBox = Box(app, align="top", width="fill", height="fill", border=False)
+globals.contentBox.bg = 'dimgrey'
+
+# Bottom Text Bar (Empty Box, ChatBox, Send Button) Bottom menu of UI
+BottomMenuBar(app, globals.client_messenger, globals.contentBox)
 
 # Displays the Application UI
 app.display()
+app.focus()

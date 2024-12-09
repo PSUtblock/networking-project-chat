@@ -2,21 +2,21 @@ from guizero import Box, Text, PushButton
 import globals
 
 
-# Define a class for a custom UI component
+# ChatMessage class. Use it to post messages in the content box
 class ChatMessage:
-    def __init__(self, parent, button_text, button_action):
+    def __init__(self, parent, user, message, timestamp):
 
         # Create a container box for this widget
         self.container = Box(parent)
         self.container.width = "fill"
 
         # Add a title text
-        self.username = Text(self.container, text=globals.client_username, size=12, color="blue", align="left")
+        self.username = Text(self.container, text=user, size=12, color="white", align="left")
 
         # Add a button with the specified action
-        self.button = PushButton(self.container, text=button_text, command=button_action, align="left", width="fill")
+        self.text_message = Text(self.container, text=message, size=12, align="left", color="white",  width=100)
 
-        self.timetamp = Text(self.container, text="nvm")
+        self.time_stamp = Text(self.container, text=timestamp, color="white", size=12, width=20)
 
     def destroy(self):
         """Destroy the widget (removes it from the UI)."""
